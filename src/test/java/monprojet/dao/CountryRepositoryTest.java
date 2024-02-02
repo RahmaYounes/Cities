@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import monprojet.entity.*;
+import monprojet.method.PopulationParPays;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -38,6 +40,20 @@ public class CountryRepositoryTest {
         int combienDePaysDansLeJeuDeTest = 3 + 1; // 3 dans data.sql, 1 dans test-data.sql
         long nombre = countryDAO.count();
         assertEquals(combienDePaysDansLeJeuDeTest, nombre, "On doit trouver 4 pays" );
+    }
+
+      @Test
+    void testPopulationPays() {
+        log.info("On calcule la population d'un pays");
+        int population = countryDAO.getPopulationTotale(1);
+        assertEquals(population, 12, "La population est 12");
+    }
+
+    @Test
+    void populationParPays() {
+        log.info("On récupère la liste des pays avec leur population");
+        List<PopulationParPays> res = countryDAO.populationParPays();
+        assertEquals(res.size(), 3, "Movais nombre du pays");
     }
 
 }
